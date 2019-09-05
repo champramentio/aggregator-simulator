@@ -17,13 +17,13 @@
 const Route = use("Route");
 
 function generateRandomString(length) {
-  let text = "";
-  const possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+	let text = "";
+	const possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
 
-  for (let i = 0; i < length; i++) {
-    text += possible.charAt(Math.floor(Math.random() * possible.length));
-  }
-  return text;
+	for (let i = 0; i < length; i++) {
+		text += possible.charAt(Math.floor(Math.random() * possible.length));
+	}
+	return text;
 }
 
 const uuid4 = require("uuid4");
@@ -33,46 +33,46 @@ const Moment = require("moment");
 // 	King Simulator
 //=================================================================================
 Route.post("/email/send", async ({ response, request }) => {
-  return response.json({
-    success: true,
-    data: {
-      transactionid: uuid4(),
-      messageid: uuid4(),
-      status: "success"
-    }
-  });
+	return response.json({
+		success: true,
+		data: {
+			transactionid: uuid4(),
+			messageid: uuid4(),
+			status: "success"
+		}
+	});
 });
 
 Route.post("/email/status", async ({ response, request }) => {
-  const status = ["Sent", "Opened", "Clicked", "Unsubscribed", "Pending", "Failed", "Delivered"];
-  const random = (status.length * Math.random()) | 0;
+	const status = ["Sent", "Opened", "Clicked", "Unsubscribed", "Pending", "Failed", "Delivered"];
+	const random = (status.length * Math.random()) | 0;
 
-  return response.json({
-    success: true,
-    data: {
-      messageid: uuid4(),
-      transactionid: uuid4(),
-      status: random,
-      statusName: status[random],
-      statuschangedate: Moment().format("YYYY-MM-DD HH:mm:ss"),
-      datesent: Moment().format("YYYY-MM-DD HH:mm:ss"),
-      dateopened: Moment().format("YYYY-MM-DD HH:mm:ss"),
-      dateclicked: Moment().format("YYYY-MM-DD HH:mm:ss"),
-      errormessage: "no error"
-    }
-  });
+	return response.json({
+		success: true,
+		data: {
+			messageid: uuid4(),
+			transactionid: uuid4(),
+			status: random,
+			statusname: status[random],
+			statuschangedate: Moment().format("YYYY-MM-DD HH:mm:ss"),
+			datesent: Moment().format("YYYY-MM-DD HH:mm:ss"),
+			dateopened: Moment().format("YYYY-MM-DD HH:mm:ss"),
+			dateclicked: Moment().format("YYYY-MM-DD HH:mm:ss"),
+			errormessage: "no error"
+		}
+	});
 });
 
 //=================================================================================
 // 	Nadyne Simulator
 //=================================================================================
 Route.get("/sms.php", async ({ response, request }) => {
-  const status = ["SENT", "SENT FAILED - No Route", "FAILED - Sender Not Found", "Failed - Token not enough", "Failed - User not found"];
-  const random = (status.length * Math.random()) | 0;
+	const status = ["SENT", "SENT FAILED - No Route", "FAILED - Sender Not Found", "Failed - Token not enough", "Failed - User not found"];
+	const random = (status.length * Math.random()) | 0;
 
-  response.header("Content-type", "application/xml");
+	response.header("Content-type", "application/xml");
 
-  return `<?xml version="1.0" encoding="iso-8859-1" ?>
+	return `<?xml version="1.0" encoding="iso-8859-1" ?>
 	<message>
 	<TrxID>${generateRandomString(20)}</TrxID>
 	<Status>${status[random]}</Status>
