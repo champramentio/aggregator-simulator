@@ -78,3 +78,19 @@ Route.get("/sms.php", async ({ response, request }) => {
 	<Status>${status[random]}</Status>
 	</message>`;
 });
+
+//=================================================================================
+// 	Generate CSV
+//=================================================================================
+Route.get("/write/msisdn", async ({ response, request }) => {
+	const fs = require("fs");
+	const Helpers = use("Helpers");
+
+	fs.appendFileSync(Helpers.tmpPath("test1.csv"), `msisdn\n`, "utf8");
+
+	for (var i = 0; i < 1000; i++) {
+		fs.appendFileSync(Helpers.tmpPath("test1.csv"), `62${Math.floor(Math.random() * 100000000)}\n`, "utf8");
+	}
+
+	return "success";
+});
