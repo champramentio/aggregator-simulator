@@ -28,6 +28,8 @@ function generateRandomString(length) {
 
 const uuid4 = require("uuid4");
 const Moment = require("moment");
+const fs = require("fs");
+const Helpers = use("Helpers");
 
 //=================================================================================
 // 	King Simulator
@@ -67,6 +69,13 @@ Route.post("/email/status", async ({ response, request }) => {
 // 	Nadyne Simulator
 //=================================================================================
 Route.get("/sms.php", async ({ response, request }) => {
+	//save sebagai file
+	const msisdn = request.only("msisdn");
+	const sender = request.only("sender");
+	const message = request.only("message");
+	fs.appendFileSync(Helpers.tmpPath(`response.csv`), `${msisdn.msisdn},${sender.sender},${message.message}\n`, "utf8");
+
+	//return balik
 	const status = ["SENT", "SENT FAILED - No Route", "FAILED - Sender Not Found", "Failed - Token not enough", "Failed - User not found"];
 	const random = (status.length * Math.random()) | 0;
 
@@ -83,13 +92,11 @@ Route.get("/sms.php", async ({ response, request }) => {
 // 	Generate CSV
 //=================================================================================
 Route.get("/write/msisdn", async ({ response, request }) => {
-	const fs = require("fs");
-	const Helpers = use("Helpers");
+	fs.appendFileSync(Helpers.tmpPath("test1.csv"), `msisdn,nama\n`, "utf8");
 
-	fs.appendFileSync(Helpers.tmpPath("test1.csv"), `msisdn\n`, "utf8");
-
+	//create jumlah line yang dikehendaki
 	for (var i = 0; i < 1000; i++) {
-		fs.appendFileSync(Helpers.tmpPath("test1.csv"), `62${Math.floor(Math.random() * 100000000)}\n`, "utf8");
+		fs.appendFileSync(Helpers.tmpPath("test1.csv"), `6281${Math.floor(Math.random() * 100000000)},${generateRandomString(10)}\n`, "utf8");
 	}
 
 	return "success";
