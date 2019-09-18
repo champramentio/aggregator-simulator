@@ -31,6 +31,10 @@ const Moment = require("moment");
 const fs = require("fs");
 const Helpers = use("Helpers");
 
+Route.get("/", async ({ response, request }) => {
+	return "Hello from Aggregator Simulator";
+});
+
 //=================================================================================
 // 	King Simulator
 //=================================================================================
@@ -95,7 +99,7 @@ Route.get("/write/msisdn", async ({ response, request }) => {
 	fs.appendFileSync(Helpers.tmpPath("test1.csv"), `msisdn,nama\n`, "utf8");
 
 	//create jumlah line yang dikehendaki
-	for (var i = 0; i < 1000; i++) {
+	for (var i = 0; i < 500000; i++) {
 		fs.appendFileSync(Helpers.tmpPath("test1.csv"), `6281${Math.floor(Math.random() * 100000000)},${generateRandomString(10)}\n`, "utf8");
 	}
 

@@ -2,9 +2,6 @@
 node_modules
 package-lock.json
 
-# Adonis directory for storing tmp files
-tmp
-
 # Environment variables, never commit this file
 .env
 
@@ -14,3 +11,4 @@ database/development.sqlite
 # VSCode & Webstorm history directories
 .history
 .idea
+.DS_Store
