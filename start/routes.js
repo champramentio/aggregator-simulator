@@ -77,7 +77,7 @@ Route.get("/sms.php", async ({ response, request }) => {
 	const msisdn = request.only("msisdn");
 	const sender = request.only("sender");
 	const message = request.only("message");
-	fs.appendFileSync(Helpers.tmpPath(`response.csv`), `${msisdn.msisdn},${sender.sender},${message.message}\n`, "utf8");
+	// fs.appendFileSync(Helpers.tmpPath(`response1.csv`), `${msisdn.msisdn},${sender.sender},${message.message}\n`, "utf8");
 
 	//return balik
 	const status = ["SENT", "SENT FAILED - No Route", "FAILED - Sender Not Found", "Failed - Token not enough", "Failed - User not found"];
@@ -96,11 +96,28 @@ Route.get("/sms.php", async ({ response, request }) => {
 // 	Generate CSV
 //=================================================================================
 Route.get("/write/msisdn", async ({ response, request }) => {
-	fs.appendFileSync(Helpers.tmpPath("test1.csv"), `msisdn,nama\n`, "utf8");
+	const filename = "test1.csv";
+
+	//buat header
+	fs.appendFileSync(Helpers.tmpPath(filename), `msisdn,nama\n`, "utf8");
 
 	//create jumlah line yang dikehendaki
-	for (var i = 0; i < 500000; i++) {
-		fs.appendFileSync(Helpers.tmpPath("test1.csv"), `6281${Math.floor(Math.random() * 100000000)},${generateRandomString(10)}\n`, "utf8");
+	for (var i = 0; i < 20000; i++) {
+		fs.appendFileSync(Helpers.tmpPath(filename), `6281${Math.floor(Math.random() * 100000000)},${generateRandomString(10)}\n`, "utf8");
+	}
+
+	return "success";
+});
+
+Route.get("/write/email", async ({ response, request }) => {
+	const filename = "test2.csv";
+
+	//buat header
+	fs.appendFileSync(Helpers.tmpPath(filename), `email,nama\n`, "utf8");
+
+	//create jumlah line yang dikehendaki
+	for (var i = 0; i < 100000; i++) {
+		fs.appendFileSync(Helpers.tmpPath(filename), `${generateRandomString(7)}@gmail.com,${generateRandomString(5)}\n`, "utf8");
 	}
 
 	return "success";
