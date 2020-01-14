@@ -95,30 +95,30 @@ Route.get("/sms.php", async ({ response, request }) => {
 //=================================================================================
 // 	Generate CSV
 //=================================================================================
-Route.get("/write/msisdn", async ({ response, request }) => {
-	const filename = `test-${new Date().getTime()}.csv`;
+Route.get("/write/msisdn/:total", async ({ params, response, request }) => {
+	const filename = Helpers.tmpPath(`test-${new Date().getTime()}.csv`);
 
 	//buat header
-	const new_file = fs.createWriteStream(Helpers.tmpPath(filename));
+	const new_file = fs.createWriteStream(filename);
 	new_file.write(`msisdn,nama\n`);
 
 	//create jumlah line yang dikehendaki
-	for (var i = 0; i < 100000; i++) {
+	for (var i = 0; i < params.total; i++) {
 		new_file.write(`6281${Math.floor(Math.random() * 100000000)},${generateRandomString(10)}\n`);
 	}
 
 	return "success";
 });
 
-Route.get("/write/email", async ({ response, request }) => {
-	const filename = `test-${new Date().getTime()}.csv`;
+Route.get("/write/email/:total", async ({ params, response, request }) => {
+	const filename = Helpers.tmpPath(`test-${new Date().getTime()}.csv`);
 
 	//buat header
-	const new_file = fs.createWriteStream(Helpers.tmpPath(filename));
+	const new_file = fs.createWriteStream(filename);
 	new_file.write(`msisdn,nama\n`);
 
 	//create jumlah line yang dikehendaki
-	for (var i = 0; i < 100000; i++) {
+	for (var i = 0; i < params.total; i++) {
 		new_file.write(`${generateRandomString(7)}@gmail.com,${generateRandomString(5)}\n`);
 	}
 
