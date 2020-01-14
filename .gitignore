@@ -12,3 +12,4 @@ database/development.sqlite
 .history
 .idea
 .DS_Store
+.vscode
