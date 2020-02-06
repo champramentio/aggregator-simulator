@@ -50,7 +50,7 @@ Route.post("/email/send", async ({ response, request }) => {
 });
 
 Route.post("/email/status", async ({ response, request }) => {
-	const status = ["Sent", "Opened", "Clicked", "Unsubscribed", "Pending", "Failed", "Delivered"];
+	const status = ["AbuseReports", "Sent", "Opened", "Clicked", "Unsubscribed", "Pending", "Failed", "Delivered"];
 	const random = (status.length * Math.random()) | 0;
 
 	return response.json({
