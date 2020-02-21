@@ -80,7 +80,7 @@ Route.get("/sms.php", async ({ response, request }) => {
 	// fs.appendFileSync(Helpers.tmpPath(`response1.csv`), `${msisdn.msisdn},${sender.sender},${message.message}\n`, "utf8");
 
 	//return balik
-	const status = ["Failed-User Not Found", "Failed-Sender Not Found", "Unsupported Prefix", "Failed-Invalid Phone number"];
+	const status = ["Failed-User Not Found", "Failed-Sender Not Found", "FAILED|Unsupported Prefix Number", "Failed-Invalid Phone number"];
 	const trxId = (status.length * Math.random()) | 0; //random trx ID
 
 	response.header("Content-type", "application/xml");
