@@ -93,6 +93,25 @@ Route.get("/sms.php", async ({ response, request }) => {
 });
 
 //=================================================================================
+// 	Sprint Simulator
+//=================================================================================
+Route.post("/sprint", async ({ response, request }) => {
+	const ref_id = request.input("ref_id");
+
+	//return balik
+	const status = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
+	const code = (status.length * Math.random()) | 0; //random
+
+	let result = {
+		rc: code,
+		ref_id: ref_id
+	};
+	if (code === 0) result = { ...result, code_sms: uuid4() };
+
+	return response.json(result);
+});
+
+//=================================================================================
 // 	Generate CSV
 //=================================================================================
 Route.get("/write/msisdn/:total", async ({ params, response, request }) => {
