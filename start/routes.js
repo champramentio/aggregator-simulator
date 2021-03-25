@@ -102,13 +102,11 @@ Route.post("/sprint", async ({ response, request }) => {
 	const status = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
 	const code = (status.length * Math.random()) | 0; //random
 
-	let result = {
+	return response.json({
 		rc: code,
-		ref_id: ref_id
-	};
-	if (code === 0) result = { ...result, code_sms: uuid4() };
-
-	return response.json(result);
+		ref_id: ref_id,
+		code_sms: generateRandomString(33)
+	});
 });
 
 //=================================================================================
