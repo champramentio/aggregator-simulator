@@ -31,6 +31,12 @@ const Moment = require("moment");
 const fs = require("fs");
 const Helpers = use("Helpers");
 
+const sleep = function(ms) {
+	return new Promise(resolve => {
+		setTimeout(resolve, ms);
+	});
+};
+
 Route.get("/", async ({ response, request }) => {
 	return "Hello from Aggregator Simulator";
 });
@@ -39,6 +45,11 @@ Route.get("/", async ({ response, request }) => {
 // 	King Simulator
 //=================================================================================
 Route.post("/email/send", async ({ response, request }) => {
+	// const random = (3 * Math.random()) | 0;
+
+	//simulasi real life, bisa ada timeout seolah-olah
+	// await sleep(random * 1000);
+
 	return response.json({
 		success: true,
 		data: {
