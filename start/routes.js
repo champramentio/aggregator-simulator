@@ -110,8 +110,9 @@ Route.post("/sprint", async ({ response, request }) => {
 	const ref_id = request.input("ref_id");
 
 	//return balik
-	const status = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
-	const code = (status.length * Math.random()) | 0; //random
+	const status = [0, 0, 0, 0, 0, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
+	const index = (status.length * Math.random()) | 0; //random
+	const code = status[index];
 
 	return response.json({
 		rc: code,
