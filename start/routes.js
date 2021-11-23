@@ -26,10 +26,14 @@ function generateRandomString(length) {
 	return text;
 }
 
-const uuid4 = require("uuid4");
-const Moment = require("moment");
+const dayjs = require("dayjs");
+const { randomUUID } = require("crypto");
 const fs = require("fs");
 const Helpers = use("Helpers");
+
+const formatDatetime = () => {
+	return dayjs().format("YYYY-MM-DD HH:mm:ss");
+};
 
 const delay = ms => new Promise(resolve => setTimeout(resolve, ms));
 
@@ -49,8 +53,8 @@ Route.post("/email/send", async ({ response, request }) => {
 	return response.json({
 		success: true,
 		data: {
-			transactionid: uuid4(),
-			messageid: uuid4(),
+			transactionid: randomUUID(),
+			messageid: randomUUID(),
 			status: "success"
 		}
 	});
@@ -63,14 +67,14 @@ Route.post("/email/status", async ({ response, request }) => {
 	return response.json({
 		success: true,
 		data: {
-			messageid: uuid4(),
-			transactionid: uuid4(),
+			messageid: randomUUID(),
+			transactionid: randomUUID(),
 			status: random,
 			statusname: status[random],
-			statuschangedate: Moment().format("YYYY-MM-DD HH:mm:ss"),
-			datesent: Moment().format("YYYY-MM-DD HH:mm:ss"),
-			dateopened: Moment().format("YYYY-MM-DD HH:mm:ss"),
-			dateclicked: Moment().format("YYYY-MM-DD HH:mm:ss"),
+			statuschangedate: formatDatetime(),
+			datesent: formatDatetime(),
+			dateopened: formatDatetime(),
+			dateclicked: formatDatetime(),
 			errormessage: "no error"
 		}
 	});
@@ -94,8 +98,8 @@ Route.get("/sms.php", async ({ response, request }) => {
 
 	return `<?xml version="1.0" encoding="iso-8859-1" ?>
 	<message>
-	<TrxID>${trxId === 0 ? trxId : generateRandomString(20)}</TrxID>
-	<Status>${trxId === 0 ? status[trxId] : `SENT|${msisdn.msisdn}`}</Status>
+		<TrxID>${trxId === 0 ? trxId : generateRandomString(20)}</TrxID>
+		<Status>${trxId === 0 ? status[trxId] : `SENT|${msisdn.msisdn}`}</Status>
 	</message>`;
 });
 
