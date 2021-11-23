@@ -31,11 +31,7 @@ const Moment = require("moment");
 const fs = require("fs");
 const Helpers = use("Helpers");
 
-const sleep = function(ms) {
-	return new Promise(resolve => {
-		setTimeout(resolve, ms);
-	});
-};
+const delay = ms => new Promise(resolve => setTimeout(resolve, ms));
 
 Route.get("/", async ({ response, request }) => {
 	return "Hello from Aggregator Simulator";
@@ -114,11 +110,13 @@ Route.post("/sprint", async ({ response, request }) => {
 	const index = (status.length * Math.random()) | 0; //random
 	const code = status[index];
 
-	return response.json({
+	const result = {
 		rc: code,
 		ref_id: ref_id,
 		code_sms: generateRandomString(33)
-	});
+	};
+
+	return response.json(result);
 });
 
 //=================================================================================
