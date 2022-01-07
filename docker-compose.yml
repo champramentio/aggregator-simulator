@@ -1,9 +1,8 @@
-version: '3.9'
+version: "3.9"
 
 services:
-  # adonis
   aggregator_simulator:
-    image: aggsim_image
+    image: mediacartz/aggregator-simulator:1.2.0
     container_name: aggregator_simulator
     build:
       context: .
