@@ -18,7 +18,8 @@ const Route = use("Route");
 
 function generateRandomString(length) {
 	let text = "";
-	const possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+	const possible =
+		"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
 
 	for (let i = 0; i < length; i++) {
 		text += possible.charAt(Math.floor(Math.random() * possible.length));
@@ -35,10 +36,68 @@ const formatDatetime = () => {
 	return dayjs().format("YYYY-MM-DD HH:mm:ss");
 };
 
-const delay = ms => new Promise(resolve => setTimeout(resolve, ms));
+const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
 Route.get("/", async ({ response, request }) => {
 	return "Hello from Aggregator Simulator";
+});
+
+//=================================================================================
+// 	Postmark Simulator
+//=================================================================================
+Route.post("/postmark", async ({ response, request }) => {
+	const formData = request.only("recipient");
+
+	const status = [
+		{
+			ErrorCode: 0,
+			Message: "OK",
+		},
+		{
+			ErrorCode: 0,
+			Message: "OK",
+		},
+		{
+			ErrorCode: 0,
+			Message: "OK",
+		},
+		{
+			ErrorCode: 0,
+			Message: "OK",
+		},
+		{
+			ErrorCode: 0,
+			Message: "OK",
+		},
+		{
+			ErrorCode: 10,
+			Message: "Bad or missing API token",
+		},
+		{
+			ErrorCode: 100,
+			Message: "Maintenance The Postmark API is offline for maintenance",
+		},
+		{
+			ErrorCode: 300,
+			Message: "Invalid email",
+		},
+		{
+			ErrorCode: 400,
+			Message: "Sender Signature not found",
+		},
+	];
+	const index = (status.length * Math.random()) | 0; //random
+	const errorCode = status[index];
+
+	//simulasi real life, bisa ada timeout seolah-olah
+	// await sleep(random * 1000);
+
+	return response.json({
+		...errorCode,
+		MessageID: randomUUID(),
+		SubmittedAt: formatDatetime(),
+		To: formData.recipient,
+	});
 });
 
 //=================================================================================
@@ -55,13 +114,22 @@ Route.post("/email/send", async ({ response, request }) => {
 		data: {
 			transactionid: randomUUID(),
 			messageid: randomUUID(),
-			status: "success"
-		}
+			status: "success",
+		},
 	});
 });
 
 Route.post("/email/status", async ({ response, request }) => {
-	const status = ["Submitted", "Delivered", "Opened", "Clicked", "Unsubscribed", "Bounced", "Complaints", "Suppressed"];
+	const status = [
+		"Submitted",
+		"Delivered",
+		"Opened",
+		"Clicked",
+		"Unsubscribed",
+		"Bounced",
+		"Complaints",
+		"Suppressed",
+	];
 	const random = (status.length * Math.random()) | 0;
 
 	return response.json({
@@ -75,8 +143,8 @@ Route.post("/email/status", async ({ response, request }) => {
 			datesent: formatDatetime(),
 			dateopened: formatDatetime(),
 			dateclicked: formatDatetime(),
-			errormessage: "no error"
-		}
+			errormessage: "no error",
+		},
 	});
 });
 
@@ -91,7 +159,12 @@ Route.get("/sms.php", async ({ response, request }) => {
 	// fs.appendFileSync(Helpers.tmpPath(`response1.csv`), `${msisdn.msisdn},${sender.sender},${message.message}\n`, "utf8");
 
 	//return balik
-	const status = ["Failed-User Not Found", "Failed-Sender Not Found", "FAILED|Unsupported Prefix Number", "FAILED|Invalid MSISDN"];
+	const status = [
+		"Failed-User Not Found",
+		"Failed-Sender Not Found",
+		"FAILED|Unsupported Prefix Number",
+		"FAILED|Invalid MSISDN",
+	];
 	const trxId = (status.length * Math.random()) | 0; //random trx ID
 
 	response.header("Content-type", "application/xml");
@@ -117,7 +190,7 @@ Route.post("/sprint", async ({ response, request }) => {
 	const result = {
 		rc: code,
 		ref_id: ref_id,
-		code_sms: generateRandomString(33)
+		code_sms: generateRandomString(33),
 	};
 
 	return response.json(result);
@@ -135,7 +208,11 @@ Route.get("/write/msisdn/:total", async ({ params, response, request }) => {
 
 	//create jumlah line yang dikehendaki
 	for (var i = 0; i < params.total; i++) {
-		new_file.write(`6281${Math.floor(Math.random() * 100000000)},${generateRandomString(10)}\n`);
+		new_file.write(
+			`6281${Math.floor(
+				Math.random() * 100000000
+			)},${generateRandomString(10)}\n`
+		);
 	}
 
 	return "success";
@@ -150,7 +227,9 @@ Route.get("/write/email/:total", async ({ params, response, request }) => {
 
 	//create jumlah line yang dikehendaki
 	for (var i = 0; i < params.total; i++) {
-		new_file.write(`${generateRandomString(7)}@gmail.com,${generateRandomString(5)}\n`);
+		new_file.write(
+			`${generateRandomString(7)}@gmail.com,${generateRandomString(5)}\n`
+		);
 	}
 
 	return "success";
