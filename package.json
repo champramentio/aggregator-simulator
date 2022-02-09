@@ -1,6 +1,6 @@
 {
 	"name": "aggregator-simulator",
-	"version": "1.0.1",
+	"version": "1.0.2",
 	"adonis-version": "4.1.0",
 	"description": "Aggregator Simulator",
 	"main": "index.js",
