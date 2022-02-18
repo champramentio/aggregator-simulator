@@ -45,7 +45,7 @@ Route.get("/", async ({ response, request }) => {
 //=================================================================================
 // 	Postmark Simulator
 //=================================================================================
-Route.post("/postmark", async ({ response, request }) => {
+Route.post("/email", async ({ response, request }) => {
 	const formData = request.only("recipient");
 
 	const status = [
